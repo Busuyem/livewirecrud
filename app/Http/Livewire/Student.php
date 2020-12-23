@@ -93,15 +93,32 @@ class Student extends Component
             
             $student->update($data);
 
+            session()->flash('message', 'Student has been updated successfully');
+
+            $this->resetInputFields();
+            
+            $this->emit('updateStudent');
+
         }
 
-        session()->flash('message', 'Student has been updated successfully');
-
-        $this->resetInputFields();
-        
-        $this->emit('updateStudent');
+       
 
     }
 
+
+    public function destroy($id)
+
+    {
+        if($id){
+
+            $student = Students::where('id', $id)->first();
+
+            $student->delete();
+
+            session()->flash('message', 'Student has been deleted successfully');
+
+
+        }
+    }
 
 }
