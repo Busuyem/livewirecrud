@@ -1,11 +1,22 @@
 <div>
     {{-- Success is as dangerous as failure. --}}
-
+    @include('livewire.create')
     <section>
         <div class="container col-md-10">
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session('message') }}
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header">
-                    <h4>All Students</h4>
+                    <h4>All Students
+
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStudent">
+                            Add Student
+                        </button>
+                          
+                    </h4>
                 </div>
 
                 <div class="card-body">
