@@ -4,21 +4,31 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 
+use Livewire\WithPagination;
 use App\Models\Student as Students;
 
 class Student extends Component
 {
-
+    use WithPagination;
+    
     public $ids;
     public $first_name;
     public $last_name;
     public $email;
     public $phone;
+
+    public $searchItem;
     
 
     public function render()
     {
-        $students = Students::orderBy('id', 'DESC')->get();
+       $searchItem = '%'.$this->searchItem.'%';
+
+        $students = Students::where('first_name', 'LIKE', $searchItem)
+                    ->orWhere('last_name', 'LIKE', $searchItem)
+                    ->orWhere('email', 'LIKE', $searchItem)
+                    ->orWhere('phone', 'LIKE', $searchItem)
+                    ->orderBy('id', 'DESC')->paginate(5);
 
         return view('livewire.student', compact('students'));
     }
