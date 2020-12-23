@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+
 use App\Models\Student as Students;
 
 class Student extends Component
@@ -15,8 +16,15 @@ class Student extends Component
     public $phone;
     
 
-   
+    public function render()
+    {
+        $students = Students::orderBy('id', 'DESC')->get();
 
+        return view('livewire.student', compact('students'));
+    }
+
+
+    
     public function resetInputFields()
     {
 
@@ -25,6 +33,33 @@ class Student extends Component
         $this->email = '';
         $this->phone = '';
     }
+
+   
+
+    public function store(){
+
+       $data = $this->validate([
+
+        'first_name' => 'required',
+
+        'last_name' => 'required',
+
+        'email' => 'required|email',
+
+        'phone' => 'required|digits:11',
+
+        ]);
+
+        Students::create($data);
+
+        session()->flash('message', 'Students added successfully');
+
+        $this->resetInputFields();
+
+        $this->emit('studentAdded');
+
+    }
+
 
     public function edit($id){
 
@@ -61,40 +96,12 @@ class Student extends Component
         }
 
         session()->flash('message', 'Student has been updated successfully');
+
         $this->resetInputFields();
+        
         $this->emit('updateStudent');
 
     }
 
 
-    public function store(){
-
-       $data = $this->validate([
-
-        'first_name' => 'required',
-
-        'last_name' => 'required',
-
-        'email' => 'required|email',
-
-        'phone' => 'required|digits:11',
-
-        ]);
-
-        Students::create($data);
-
-        session()->flash('message', 'Students added successfully');
-
-        $this->resetInputFields();
-
-        $this->emit('studentAdded');
-
-    }
-
-    public function render()
-    {
-        $students = Students::orderBy('id', 'DESC')->get();
-
-        return view('livewire.student', compact('students'));
-    }
 }
