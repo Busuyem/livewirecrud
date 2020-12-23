@@ -22,6 +22,10 @@
         window.livewire.on('studentAdded', () => {
             $('#addStudent').modal('hide');
         })
+
+        window.livewire.on('updateStudent', () => {
+            $('#updatedStudent').modal('hide');
+        })
     </script>
 </body>
 </html>

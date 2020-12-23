@@ -1,6 +1,7 @@
 <div>
     {{-- Success is as dangerous as failure. --}}
     @include('livewire.create')
+    @include('livewire.edit')
     <section>
         <div class="container col-md-10">
             @if(session()->has('message'))
@@ -28,6 +29,7 @@
                                 <th>Last Name</th>
                                 <th>Email</th>
                                 <th>Phone Number</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
 
@@ -39,6 +41,9 @@
                                     <td>{{ $student->last_name }}</td>
                                     <td>{{ $student->email }}</td>
                                     <td>{{ $student->phone }}</td>
+                                    <td>
+                                        <button type="submit" class="btn btn-info" data-toggle = "modal" data-target="#updatedStudent" wire:click.prevent = "edit({{ $student->id }})">Edit</button>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
